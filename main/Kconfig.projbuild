@@ -1,0 +1,45 @@
+menu "Smart fish tank Configuration"
+
+    menu "Fish tank temperature sensor ds18x20 configuration"
+        config FISH_TANK_TEMPERATURE_SENSORS_DS18X20_MAX
+            int "Number of ds18x20 sensors on the 1-Wire bus"
+            default 8
+            help
+                Max number of ds18x20 sensors on th 1-Wire bus. If number of
+                sensors on the bus more than this value found on the bus, the rest
+                of sensors will be ignored.。
+
+        config FISH_TANK_TEMPERATURE_SENSOR_DS18X20_GPIO
+            int "Sensor GPIO num"
+            default 16 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+            help
+                GPIO number for fish tank temperature sensor.
+    endmenu # Fish tank temperature sensor
+
+    menu "chiller relay configuration"
+        config CHILLER_RELAY_GPIO
+            int "Relay GPIO num"
+            default 17 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+            help
+                GPIO number for chiller relay.
+
+        choice
+            prompt "Select the relay activation level"
+            default CHILLER_RELAY_LEVEL_HIGH
+
+            config CHILLER_RELAY_LEVEL_HIGH
+                bool "high"
+            config CHILLER_RELAY_LEVEL_LOW
+                bool "low"
+            help
+                Select relay high or low trigger
+        endchoice # relay level
+
+        config CHILLER_RELAY_LEVEL
+            bool
+            default y if(CHILLER_RELAY_LEVEL_HIGH)
+            default n if(CHILLER_RELAY_LEVEL_LOW)
+
+    endmenu # chiller relay
+
+endmenu
