@@ -1,3 +1,5 @@
-/sdkconfig
-/cmake-build-debug/
+sdkconfig
+sdkconfig.old
+cmake-build-debug
+build
 .idea
