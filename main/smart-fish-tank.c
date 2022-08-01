@@ -8,5 +8,7 @@
 
 void app_main(void) {
     chiller_relay_init();
+    light_relay_init();
+    filter_relay_init();
     fish_tank_temperature_sensor_init();
 }

@@ -10,6 +10,8 @@
 #include "relay.h"
 
 #define CHILLER_RELAY_GPIO CONFIG_CHILLER_RELAY_GPIO
+#define LIGHT_RELAY_GPIO CONFIG_LIGHT_RELAY_GPIO
+#define FILTER_RELAY_GPIO CONFIG_FILTER_RELAY_GPIO
 
 esp_err_t set_chiller_relay_level(uint32_t level) {
     return gpio_set_level(CHILLER_RELAY_GPIO, level);
@@ -19,4 +21,24 @@ void chiller_relay_init() {
     // 初始化引脚为输出模式,并关闭继电器
     gpio_set_direction(CHILLER_RELAY_GPIO, GPIO_MODE_OUTPUT);
     gpio_set_level(CHILLER_RELAY_GPIO, !CHILLER_RELAY_LEVEL);
+}
+
+esp_err_t set_light_relay_level(uint32_t level) {
+    return gpio_set_level(LIGHT_RELAY_GPIO, level);
+}
+
+void light_relay_init(){
+    // 初始化引脚为输出模式,并关闭继电器
+    gpio_set_direction(LIGHT_RELAY_GPIO, GPIO_MODE_OUTPUT);
+    gpio_set_level(LIGHT_RELAY_GPIO, !LIGHT_RELAY_LEVEL);
+}
+
+esp_err_t set_filter_relay_level(uint32_t level) {
+    return gpio_set_level(FILTER_RELAY_GPIO, level);
+}
+
+void filter_relay_init(){
+    // 初始化引脚为输出模式,并关闭继电器
+    gpio_set_direction(FILTER_RELAY_GPIO, GPIO_MODE_OUTPUT);
+    gpio_set_level(FILTER_RELAY_GPIO, !FILTER_RELAY_LEVEL);
 }

@@ -16,7 +16,7 @@ menu "Smart fish tank Configuration"
                 GPIO number for fish tank temperature sensor.
     endmenu # Fish tank temperature sensor
 
-    menu "chiller relay configuration"
+    menu "Chiller relay configuration"
         config CHILLER_RELAY_GPIO
             int "Relay GPIO num"
             default 17 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
@@ -42,4 +42,55 @@ menu "Smart fish tank Configuration"
 
     endmenu # chiller relay
 
+    menu "Light relay configuration"
+            config LIGHT_RELAY_GPIO
+                int "Relay GPIO num"
+                default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+                help
+                    GPIO number for light relay.
+
+            choice
+                prompt "Select the relay activation level"
+                default LIGHT_RELAY_LEVEL_HIGH
+
+                config LIGHT_RELAY_LEVEL_HIGH
+                    bool "high"
+                config LIGHT_RELAY_LEVEL_LOW
+                    bool "low"
+                help
+                    Select relay high or low trigger
+            endchoice # relay level
+
+            config LIGHT_RELAY_LEVEL
+                bool
+                default y if(LIGHT_RELAY_LEVEL_HIGH)
+                default n if(LIGHT_RELAY_LEVEL_LOW)
+
+        endmenu # Light relay
+
+        menu "Filter relay configuration"
+                config FILTER_RELAY_GPIO
+                    int "Relay GPIO num"
+                    default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+                    help
+                        GPIO number for filter relay.
+
+                choice
+                    prompt "Select the relay activation level"
+                    default FILTER_RELAY_LEVEL_HIGH
+
+                    config FILTER_RELAY_LEVEL_HIGH
+                        bool "high"
+                    config FILTER_RELAY_LEVEL_LOW
+                        bool "low"
+                    help
+                        Select relay high or low trigger
+                endchoice # relay level
+
+                config FILTER_RELAY_LEVEL
+                    bool
+                    default y if(FILTER_RELAY_LEVEL_HIGH)
+                    default n if(FILTER_RELAY_LEVEL_LOW)
+
+            endmenu # Filter relay
 endmenu
