@@ -21,6 +21,7 @@
 static const char *TAG = "sensor";
 static const int RESCAN_INTERVAL = 8;
 static const uint32_t LOOP_DELAY_MS = 500;
+static const int SET_TEMPERATURE = 26;
 
 void read_fish_tank_temperature_task(void *pvParameter) {
     ds18x20_addr_t sensor_addrs[DS18X20_MAX];
@@ -62,19 +63,19 @@ void read_fish_tank_temperature_task(void *pvParameter) {
             } else {
                 average_temp = temps[0];
             }
-            // 如果大于28度就开启冷水机,低于27度关闭冷水机
-            if (average_temp > 28) {
+            // 如果大于设定温度就关闭冷水机小于则打开
+            if ((int) average_temp > SET_TEMPERATURE) {
                 if (!relay_level) {
                     set_chiller_relay_level(HIGH_LEVEL);
                     relay_level = HIGH_LEVEL;
                 }
-            } else if (average_temp < 27) {
+            } else if (average_temp < SET_TEMPERATURE) {
                 if (relay_level) {
                     set_chiller_relay_level(LOW_LEVEL);
                     relay_level = LOW_LEVEL;
                 }
             }
-            ESP_LOGI(TAG, "average %f", average_temp);
+            ESP_LOGI(TAG, "Average temperature %f°C", average_temp);
         }
         vTaskDelay(pdMS_TO_TICKS(LOOP_DELAY_MS));
     }
